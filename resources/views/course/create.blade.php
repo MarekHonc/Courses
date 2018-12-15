@@ -34,7 +34,7 @@
 
     <div class="form-group">
         <label for="from">Starts at</label>
-        <input id="from" name="from" type="date" value="{{ old('from') }}" placeholder="Starts at" required class="form-control" />
+        <input id="from" name="from" type="datetime-local" value="{{ old('from') }}" placeholder="Starts at" required class="form-control" />
         @if ($errors->has("from"))
             <div>{{ $errors->first("from") }} </div>
         @endif
@@ -42,7 +42,7 @@
 
     <div class="form-group">
         <label for="to">Ends at</label>
-        <input id="to" name="to" type="date" value="{{ old('to') }}" placeholder="Ends at" required class="form-control" />
+        <input id="to" name="to" type="datetime-local" value="{{ old('to') }}" placeholder="Ends at" required class="form-control" />
         @if ($errors->has("to"))
             <div>{{ $errors->first("to") }} </div>
         @endif

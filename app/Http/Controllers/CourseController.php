@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use Auth;
 
 class CourseController extends Controller
 {
@@ -13,7 +14,7 @@ class CourseController extends Controller
     }
 
     public function myCourses(){
-        return view("home");
+        return view("course.mycourses");
     }
 
     public function create()
@@ -26,20 +27,18 @@ class CourseController extends Controller
         $request->validate([
             'name' => 'required',
             'capacity' => 'numeric|min:1',
-            'from' => 'required|after:today',
+            'from' => 'required|after_or_equal:today',
             'to' => 'required|after:from',
         ]);
 
         $course = Course::create([
-            "name" => $request->note,
-            "description" => $request->note,
-            "capacity" => $request->note,
-            "from" => $request->note,
-            "to" => $request->note,
+            "name" => $request->name,
+            "description" => $request->description,
+            "capacity" => $request->capacity,
+            "from" => $request->from,
+            "to" => $request->to,
             "user_id" => Auth::user()->id,
         ]);
-
-        $note->save();
  
         return redirect('/mycourses');
     }
