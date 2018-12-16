@@ -8,8 +8,7 @@ use Auth;
 
 class CourseController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
     }
 
@@ -27,13 +26,11 @@ class CourseController extends Controller
         return view('course.mycourses', ['myCourses' => $myCourses, 'attendedCourses' => []]);
     }
 
-    public function create()
-    {
+    public function create(){
         return view('course.create');
     }
 
-    public function storeNew(Request $request)
-    {
+    public function storeNew(Request $request){
         $request->validate([
             'name' => 'required',
             'capacity' => 'numeric|min:1',
@@ -53,8 +50,7 @@ class CourseController extends Controller
         return redirect('/home');
     }
 
-    public function edit(Course $course)
-    {
+    public function edit(Course $course){
         if($course->to < date_create()->format('Y-m-d H:i:s'))
             return abort(400);
 
@@ -91,5 +87,27 @@ class CourseController extends Controller
         $course->delete();
 
         return redirect('home');
+    }
+
+    public function joinCourse(Course $course){
+        $id = Auth::id();
+        
+        if($id === $course->creator->id || !$course->hasSpace())
+            return abort(400);
+
+        $course->users()->attach($id);
+
+        return redirect('/home');
+    }
+
+    public function leaveCourse(Course $course){
+        $id = Auth::id();
+        
+        if($id === $course->creator->id)
+            return abort(400);
+
+        $course->users()->detach($id);
+
+        return redirect('/home');
     }
 }

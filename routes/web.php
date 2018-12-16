@@ -25,3 +25,6 @@ Route::get('/edit/{course}', 'CourseController@edit');
 Route::post('/edit','CourseController@storeEdit');
 
 Route::post('/delete/{course}','CourseController@delete');
+
+Route::post('joincourse/{course}', 'CourseController@joinCourse');
+Route::post('leavecourse/{course}', 'CourseController@leaveCourse');

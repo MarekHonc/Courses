@@ -16,6 +16,10 @@ class Course extends Model
         'created_at', 'updated_at'
     ];
 
+    public function hasSpace(){
+        return $this->capacity-count($this->users) >= 1;
+    }
+
     public function creator() {
         return $this->belongsTo('App\User','user_id');
     }
