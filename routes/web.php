@@ -13,15 +13,15 @@
 
 Auth::routes();
 
-Route::get('/', "PublicController@allCourses");
+Route::get('/', 'PublicController@allCourses');
 
-Route::get("/home", "CourseController@myCourses");
-Route::get("/allmy", "CourseController@allMyCourses");
+Route::get('/home', 'CourseController@myCourses');
+Route::get('/allmy', 'CourseController@allMyCourses');
 
-Route::get("/new", "CourseController@create");
-Route::post("/new","CourseController@storeNew");
+Route::get('/new', 'CourseController@create');
+Route::post('/new','CourseController@storeNew');
 
-Route::get("/edit/{course}", "CourseController@edit");
-Route::post("/edit","CourseController@storeEdit");
+Route::get('/edit/{course}', 'CourseController@edit');
+Route::post('/edit','CourseController@storeEdit');
 
-Route::post("/delete/{course}","CourseController@delete");
+Route::post('/delete/{course}','CourseController@delete');

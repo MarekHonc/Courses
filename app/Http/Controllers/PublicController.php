@@ -12,9 +12,9 @@ class PublicController extends Controller
         $courses = [];
         $user = Auth::user();
         
-        $courses = Course::where("to", ">", date_create()->format('Y-m-d H:i:s'))
-            ->orderby("from", "desc")->get();
+        $courses = Course::where('to', '>', date_create()->format('Y-m-d H:i:s'))
+            ->orderby('from', 'desc')->get();
 
-        return view("allCourses", ["courses" => $courses]);
+        return view('allCourses', ['courses' => $courses]);
     }
 }

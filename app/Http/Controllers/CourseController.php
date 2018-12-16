@@ -14,22 +14,22 @@ class CourseController extends Controller
     }
 
     public function allMyCourses(){
-        $myCourses = Course::where("user_id", "=", Auth::user()->id)->orderby("from", "desc")->get();
+        $myCourses = Course::where('user_id', '=', Auth::user()->id)->orderby('from', 'desc')->get();
 
-        return view("course.mycourses", ["myCourses" => $myCourses, "attendedCourses" => []]);
+        return view('course.mycourses', ['myCourses' => $myCourses, 'attendedCourses' => []]);
     }
 
     public function myCourses(){
-        $myCourses = Course::where("user_id", "=", Auth::user()->id)
-            ->where("to", ">", date_create()->format('Y-m-d H:i:s'))
-            ->orderby("from", "desc")->get();
+        $myCourses = Course::where('user_id', '=', Auth::user()->id)
+            ->where('to', '>', date_create()->format('Y-m-d H:i:s'))
+            ->orderby('from', 'desc')->get();
 
-        return view("course.mycourses", ["myCourses" => $myCourses, "attendedCourses" => []]);
+        return view('course.mycourses', ['myCourses' => $myCourses, 'attendedCourses' => []]);
     }
 
     public function create()
     {
-        return view("course.create");
+        return view('course.create');
     }
 
     public function storeNew(Request $request)
@@ -42,12 +42,12 @@ class CourseController extends Controller
         ]);
 
         $course = Course::create([
-            "name" => $request->name,
-            "description" => $request->description,
-            "capacity" => $request->capacity,
-            "from" => $request->from,
-            "to" => $request->to,
-            "user_id" => Auth::user()->id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'capacity' => $request->capacity,
+            'from' => $request->from,
+            'to' => $request->to,
+            'user_id' => Auth::user()->id,
         ]);
  
         return redirect('/home');
@@ -58,7 +58,7 @@ class CourseController extends Controller
         if($course->to < date_create()->format('Y-m-d H:i:s'))
             return abort(400);
 
-        return view("course.edit", compact("course"));
+        return view('course.edit', ['course' => $course]);
     }
 
     public function storeEdit(Request $request){
@@ -88,6 +88,8 @@ class CourseController extends Controller
     }
 
     public function delete(Course $course){
-        
+        $course->delete();
+
+        return redirect('home');
     }
 }
