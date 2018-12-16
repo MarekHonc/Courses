@@ -13,8 +13,18 @@ class CourseController extends Controller
         $this->middleware('auth');
     }
 
+    public function allMyCourses(){
+        $myCourses = Course::where("user_id", "=", Auth::user()->id)->orderby("from", "desc")->get();
+
+        return view("course.mycourses", ["myCourses" => $myCourses, "attendedCourses" => []]);
+    }
+
     public function myCourses(){
-        return view("course.mycourses");
+        $myCourses = Course::where("user_id", "=", Auth::user()->id)
+            ->where("to", ">", date_create()->format('Y-m-d H:i:s'))
+            ->orderby("from", "desc")->get();
+
+        return view("course.mycourses", ["myCourses" => $myCourses, "attendedCourses" => []]);
     }
 
     public function create()
@@ -40,21 +50,41 @@ class CourseController extends Controller
             "user_id" => Auth::user()->id,
         ]);
  
-        return redirect('/mycourses');
-    }
-
-    public function detail(Course $course)
-    {
-        return view("course.detail", ["note" => $note]);
+        return redirect('/home');
     }
 
     public function edit(Course $course)
     {
-        return view("course.detail", ["note" => $note]);
+        if($course->to < date_create()->format('Y-m-d H:i:s'))
+            return abort(400);
+
+        return view("course.edit", compact("course"));
     }
 
-    public function storeEdit(Course $course){
+    public function storeEdit(Request $request){
+        $course = Course::find($request->id);
 
+        $occupied = count($course->users);
+        
+        if($occupied == 0)
+            $occupied = 1;
+
+        $request->validate([
+            'name' => 'required',
+            'capacity' => 'numeric|min:'. $occupied,
+            'from' => 'required|after_or_equal:today',
+            'to' => 'required|after:from',
+        ]);
+
+        $course->name = $request->name;
+        $course->description = $request->description;
+        $course->capacity = $request->capacity;
+        $course->from = $request->from;
+        $course->to = $request->to;
+
+        $course->save();
+ 
+        return redirect('/home');
     }
 
     public function delete(Course $course){

@@ -17,16 +17,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get("/home", "HomeController@index");
-
-Route::get("/mycourses", "CourseController@myCourses");
+Route::get("/home", "CourseController@myCourses");
+Route::get("/allmy", "CourseController@allMyCourses");
 
 Route::get("/new", "CourseController@create");
 Route::post("/new","CourseController@storeNew");
 
-Route::get("/detail/{course}", "CourseController@detail");
-
 Route::get("/edit/{course}", "CourseController@edit");
-Route::post("/edit/{course}","CourseController@storeNew");
+Route::post("/edit","CourseController@storeEdit");
 
 Route::post("/delete/{course}","CourseController@delete");
