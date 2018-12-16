@@ -33,8 +33,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/home') }}">My active courses</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/allmy') }}">All my courses</a></li>
+                        @guest
+                        @else
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/home') }}">My active courses</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/allmy') }}">All my courses</a></li>
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->

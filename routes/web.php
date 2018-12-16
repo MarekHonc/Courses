@@ -11,11 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
+
+Route::get('/', "PublicController@allCourses");
 
 Route::get("/home", "CourseController@myCourses");
 Route::get("/allmy", "CourseController@allMyCourses");

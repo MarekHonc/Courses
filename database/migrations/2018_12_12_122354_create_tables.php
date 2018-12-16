@@ -26,12 +26,12 @@ class CreateTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('user_to_course', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
+        Schema::create('course_user', function (Blueprint $table) {
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
+
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
