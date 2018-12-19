@@ -13,8 +13,6 @@
 
 Auth::routes();
 
-Route::get('/', 'PublicController@allCourses');
-
 Route::get('/home', 'CourseController@myCourses');
 Route::get('/allmy', 'CourseController@allMyCourses');
 
@@ -28,3 +26,6 @@ Route::post('/delete/{course}','CourseController@delete');
 
 Route::post('joincourse/{course}', 'CourseController@joinCourse');
 Route::post('leavecourse/{course}', 'CourseController@leaveCourse');
+
+Route::get('/', 'PublicController@allCourses');
+Route::post('/search', 'PublicController@searchCourses');

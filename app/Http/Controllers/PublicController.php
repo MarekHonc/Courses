@@ -9,11 +9,21 @@ use App\Course;
 class PublicController extends Controller
 {
     public function allCourses(){
-        $courses = [];
-        $user = Auth::user();
-        
-        $courses = Course::where('to', '>', date_create()->format('Y-m-d H:i:s'))
-            ->orderby('from', 'desc')->get();
+        $query = Course::where('to', '>', date_create()->format('Y-m-d H:i:s'))->orderby('from', 'desc');
+        $courses = $query->get();
+
+        return view('allCourses', ['courses' => $courses]);
+    }
+
+    public function searchCourses(Request $requst){
+
+        $query = $query = Course::where('to', '>', date_create()->format('Y-m-d H:i:s'))->orderby('from', 'desc');
+
+        if($requst->q != null){
+            $query = $query->where('name', 'LIKE', '%' . $requst->q . '%');
+        }
+
+        $courses = $query->get();
 
         return view('allCourses', ['courses' => $courses]);
     }
