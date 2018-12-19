@@ -14,8 +14,9 @@ class CourseController extends Controller
 
     public function allMyCourses(){
         $myCourses = Course::where('user_id', '=', Auth::user()->id)->orderby('from', 'desc')->get();
+        $attendedCourses = Auth::user()->courses;
 
-        return view('course.mycourses', ['myCourses' => $myCourses, 'attendedCourses' => []]);
+        return view('course.mycourses', ['myCourses' => $myCourses, 'attendedCourses' => $attendedCourses]);
     }
 
     public function myCourses(){

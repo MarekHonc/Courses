@@ -19,4 +19,12 @@
     Courses that i attend
 </h2>
 
+@if(count($attendedCourses) > 0)
+    @foreach($attendedCourses as $course)
+        @include("course.course", ["course" => $course, "readonly" => false])
+    @endforeach
+@else
+    <p>You don't hold any courses.</p>
+@endif
+
 @endsection
